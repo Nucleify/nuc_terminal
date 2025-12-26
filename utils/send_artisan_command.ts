@@ -10,9 +10,8 @@ export async function sendArtisanCommand(
       'POST',
       { command: artisanCommand }
     )
-    const output = 'data' in response ? response.data.output : response.output
 
-    return output
+    return response.output
   } catch (error) {
     return `Error: Could not execute artisan command\n${error}`
   }
