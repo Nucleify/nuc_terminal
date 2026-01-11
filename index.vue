@@ -4,7 +4,7 @@
     icon="prime:code"
     :position="position"
     popover-class="terminal-popover"
-    button-text="Terminal"
+    :button-text="isMobile() ? '' : 'Terminal'"
     button-class="terminal-popover-toggle"
   >
     <ad-terminal

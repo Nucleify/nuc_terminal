@@ -1,5 +1,6 @@
 .terminal-popover {
-  right: 0.5em;
+  top: unset !important;
+  right: 0.5em !important;
   width: 100%;
   height: 100%;
   z-index: 100;
@@ -7,9 +8,13 @@
   overflow: hidden;
 
   &.right {
-    right: 5rem;
+    right: 5rem !important;
   }
 
+  &.bottom {
+    bottom: 5em !important;
+  }
+  
   @media (max-width: $lg) {
     right: 0;
 
@@ -21,14 +26,6 @@
   @media (min-width: $lg) {
     height: 300px;
     max-width: 450px;
-    margin-left: 3px;
-  }
-}
-
-.terminal-popover-toggle {
-  right: 16px;
-
-  &.right {
-    right: 5.5rem;
+    inset-inline-start: unset !important;
   }
 }
