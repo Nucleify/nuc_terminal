@@ -15,38 +15,48 @@ beforeEach(function (): void {
 });
 
 describe('405 > Authorized', function (): void {
-    test('put without parameter > run command api', function (): void {
-        $this->put(route('artisan.run'))
-            ->assertStatus(405);
-    });
-
-    test('put json without parameter > run command api', function (): void {
-        $this->putJson(route('artisan.run'))
-            ->assertStatus(405);
-    });
-
-    test('delete without parameter > run command api', function (): void {
-        $this->delete(route('artisan.run'))
-            ->assertStatus(405);
-    });
-
-    test('delete json without parameter > run command api', function (): void {
-        $this->deleteJson(route('artisan.run'))
-            ->assertStatus(405);
-    });
-
-    test('put with parameter > run command api', function (): void {
-        $this->put(route('artisan.run', 1))
-            ->assertStatus(405);
-    });
-
-    test('delete with parameter > run command api', function (): void {
-        $this->delete(route('artisan.run', 1))
-            ->assertStatus(405);
-    });
-
-    test('delete json with parameter > run command api', function (): void {
-        $this->deleteJson(route('artisan.run', 1))
-            ->assertStatus(405);
-    });
+    apiTestArray([
+        'put without parameter > run command api' => [
+            'method' => 'PUT',
+            'route' => 'artisan.run',
+            'status' => 405,
+            'json' => false,
+        ],
+        'put json without parameter > run command api' => [
+            'method' => 'PUT',
+            'route' => 'artisan.run',
+            'status' => 405,
+        ],
+        'delete without parameter > run command api' => [
+            'method' => 'DELETE',
+            'route' => 'artisan.run',
+            'status' => 405,
+            'json' => false,
+        ],
+        'delete json without parameter > run command api' => [
+            'method' => 'DELETE',
+            'route' => 'artisan.run',
+            'status' => 405,
+        ],
+        'put with parameter > run command api' => [
+            'method' => 'PUT',
+            'route' => 'artisan.run',
+            'status' => 405,
+            'id' => 1,
+            'json' => false,
+        ],
+        'delete with parameter > run command api' => [
+            'method' => 'DELETE',
+            'route' => 'artisan.run',
+            'status' => 405,
+            'id' => 1,
+            'json' => false,
+        ],
+        'delete json with parameter > run command api' => [
+            'method' => 'DELETE',
+            'route' => 'artisan.run',
+            'status' => 405,
+            'id' => 1,
+        ],
+    ]);
 })->skip(env('DB_DATABASE') === 'database/database.sqlite', 'temporarily unavailable');
