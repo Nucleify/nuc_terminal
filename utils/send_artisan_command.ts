@@ -1,5 +1,5 @@
-import type { ArtisanResponseInterface } from 'atomic'
-import { apiRequest } from 'atomic'
+import type { ArtisanResponseInterface } from 'nucleify'
+import { apiRequest } from 'nucleify'
 
 export async function sendArtisanCommand(
   artisanCommand: string
