@@ -1,1 +1,1 @@
-export * from './send_artisan_command'
+export * from './send_terminal_command'

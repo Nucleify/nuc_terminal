@@ -8,7 +8,7 @@
     button-class="terminal-popover-toggle"
   >
     <ad-terminal
-      prompt="artisan >"
+      prompt="supabase >"
       welcome-message="The ''help'' command displays help"
     />
   </ad-popover>
