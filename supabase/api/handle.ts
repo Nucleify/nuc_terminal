@@ -1,29 +1,25 @@
 import { readBody } from 'h3'
 
-import type {
-  ApiContext,
-  ApiHandlerResult,
-  Json,
-} from '../../../../nuxt/server/api/_types'
-import { gatewayUserFromJwt } from '../../../../nuxt/server/api/gateway_auth'
+import {
+  apiMethodNotAllowed,
+  apiNotHandled,
+  apiOk,
+  fromSupabaseError,
+  requireGatewayUser,
+} from 'nuc_api'
+import type { ApiContext, ApiHandlerResult, Json } from 'nuc_server'
+
 import { executeTerminalCommand } from './execute_terminal_command'
 
 export async function handleTerminalApi(
   ctx: ApiContext
 ): Promise<ApiHandlerResult> {
-  const { segments, method, supabase, ok } = ctx
-  if (segments[0] !== 'terminal' && segments[0] !== 'artisan')
-    return { handled: false }
-  if (method !== 'POST')
-    return { handled: true, status: 405, body: { error: 'Method not allowed' } }
+  if (ctx.segments[0] !== 'terminal' && ctx.segments[0] !== 'artisan')
+    return apiNotHandled()
+  if (ctx.method !== 'POST') return apiMethodNotAllowed()
 
-  const auth = await gatewayUserFromJwt(supabase, ctx.event)
-  if ('error' in auth)
-    return {
-      handled: true,
-      status: auth.status,
-      body: { error: auth.error },
-    }
+  const auth = await requireGatewayUser(ctx)
+  if ('handled' in auth) return auth
 
   const body = (await readBody(ctx.event)) as Json
   const command =
@@ -32,10 +28,14 @@ export async function handleTerminalApi(
       : ''
 
   try {
-    const output = await executeTerminalCommand(supabase, auth.user, command)
-    return { handled: true, body: ok({ output }) }
+    const output = await executeTerminalCommand(
+      ctx.supabase,
+      auth.user,
+      command
+    )
+    return apiOk(ctx, { output })
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e)
-    return { handled: true, status: 500, body: { error: msg } }
+    return fromSupabaseError({ message: msg })
   }
 }
