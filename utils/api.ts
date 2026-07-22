@@ -1,5 +1,5 @@
-import type { ArtisanResponseInterface } from 'nucleify'
-import { apiRequest } from 'nucleify'
+import { apiRequest } from '../../nuc_api/utils/api_request'
+import type { ArtisanResponseInterface } from '../types/interfaces'
 
 const TERMINAL_URL = '/terminal'
 
